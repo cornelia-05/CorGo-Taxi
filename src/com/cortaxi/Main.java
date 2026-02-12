@@ -1,9 +1,18 @@
 package com.cortaxi;
-
+import com.cortaxi.patterns.creational.FactoryMethod.*;
 import com.cortaxi.domain.*;
 
 public class Main {
     static void main(String[] args) {
+
+
+        TaxiFactory standardFactory = new StandardTaxiFactory();
+        TaxiFactory businessFactory = new BusinessTaxiFactory();
+        TaxiFactory deliveryFactory = new DeliveryTaxiFactory();
+
+        standardFactory.showEstimate(10);
+        businessFactory.showEstimate(10);
+        deliveryFactory.showEstimate(10);
 
         Client client = new Client("C1", "Cornelia");
         Driver driver = new Driver("D1", "Alex");
