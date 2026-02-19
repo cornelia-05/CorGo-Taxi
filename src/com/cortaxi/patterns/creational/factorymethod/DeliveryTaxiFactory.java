@@ -1,4 +1,4 @@
-package com.cortaxi.patterns.creational.FactoryMethod;
+package com.cortaxi.patterns.creational.factorymethod;
 
 public class DeliveryTaxiFactory extends TaxiFactory {
     @Override

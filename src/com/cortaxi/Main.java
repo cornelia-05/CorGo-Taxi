@@ -1,52 +1,36 @@
 package com.cortaxi;
-import com.cortaxi.patterns.creational.FactoryMethod.*;
+import com.cortaxi.patterns.creational.abstractfactory.products.*;
+import com.cortaxi.patterns.creational.abstractfactory.factories.*;
+import com.cortaxi.patterns.creational.abstractfactory.*;
+import com.cortaxi.patterns.creational.factorymethod.*;
 import com.cortaxi.domain.*;
 
 public class Main {
     static void main(String[] args) {
 
+        //TaxiFactory standardFactory = new StandardTaxiFactory();
+        //TaxiFactory businessFactory = new BusinessTaxiFactory();
+        //TaxiFactory deliveryFactory = new DeliveryTaxiFactory();
 
-        TaxiFactory standardFactory = new StandardTaxiFactory();
-        TaxiFactory businessFactory = new BusinessTaxiFactory();
-        TaxiFactory deliveryFactory = new DeliveryTaxiFactory();
+        //standardFactory.showEstimate(10);
+        //businessFactory.showEstimate(10);
+        //deliveryFactory.showEstimate(10);
 
-        standardFactory.showEstimate(10);
-        businessFactory.showEstimate(10);
-        deliveryFactory.showEstimate(10);
+        System.out.println("\n--- ABSTRACT FACTORY DEMO ---\n");
 
-        Client client = new Client("C1", "Cornelia");
-        Driver driver = new Driver("D1", "Alex");
+        // Standard Fleet
+        IFleetFactory standardFactory = new StandardFleetFactory();
+        FleetConfigurator standardFleet = new FleetConfigurator(standardFactory);
+        standardFleet.displayFleetInfo();
 
-        Vehicle car = new Vehicle("Sedan", "AB123CD", driver, "Red");
-        driver.assignVehicle(car);
+        // Business Fleet
+        IFleetFactory businessFactory = new BusinessFleetFactory();
+        FleetConfigurator businessFleet = new FleetConfigurator(businessFactory);
+        businessFleet.displayFleetInfo();
 
-
-        System.out.println("\n--- SCENARIO 1: Driver ACCEPTED ---");
-        Ride ride1 = client.requestRide(driver);
-        driver.onRideAssigned(ride1);
-        driver.acceptRide(ride1);
-        ride1.setStatus(RideStatus.ARRIVING);
-        System.out.println("Ride status: " + ride1.getStatus());
-        driver.printVehicleDetails();
-
-        System.out.println("\n--- SCENARIO 2: Waiting (no driver) ---");
-        Ride ride2 = new Ride(client, null);
-        ride2.setStatus(RideStatus.WAITING);
-        System.out.println("Ride status: " + ride2.getStatus());
-        System.out.println("Driver assigned: " + (ride2.getDriver() == null ? "None" : ride2.getDriver().getName()));
-
-        System.out.println("\n--- SCENARIO 3: Driver ON_LOCATION ---");
-        Ride ride3 = client.requestRide(driver);
-        driver.onRideAssigned(ride3);
-        driver.acceptRide(ride3);
-        ride3.setStatus(RideStatus.ON_LOCATION);
-        System.out.println("Ride status: " + ride3.getStatus());
-        driver.printVehicleDetails();
-
-        System.out.println("\n--- SCENARIO 4: Driver CANCELED ---");
-        Ride ride4 = client.requestRide(driver);
-        driver.onRideAssigned(ride4);
-        ride4.setStatus(RideStatus.CANCELED);
-        System.out.println("Ride status: " + ride4.getStatus());
+        // Delivery Fleet
+        IFleetFactory deliveryFactory = new DeliveryFleetFactory();
+        FleetConfigurator deliveryFleet = new FleetConfigurator(deliveryFactory);
+        deliveryFleet.displayFleetInfo();
     }
 }
