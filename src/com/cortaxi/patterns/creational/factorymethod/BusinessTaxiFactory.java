@@ -2,7 +2,7 @@ package com.cortaxi.patterns.creational.factorymethod;
 
 public class BusinessTaxiFactory extends TaxiFactory {
     @Override
-    public TaxiService createService() {
+    public ITaxiService createService() {
         return new BusinessTaxi();
     }
 }

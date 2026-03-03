@@ -1,6 +1,6 @@
 package com.cortaxi.patterns.creational.factorymethod;
 
-public interface TaxiService {
+public interface ITaxiService {
 
         String getServiceType();
         double calculatePrice(double distanceKm);

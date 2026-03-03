@@ -1,6 +1,6 @@
 package com.cortaxi.patterns.creational.factorymethod;
 
-public class StandardTaxi implements TaxiService {
+public class StandardTaxi implements ITaxiService {
     @Override
     public String getServiceType() {
         return "Standard";
