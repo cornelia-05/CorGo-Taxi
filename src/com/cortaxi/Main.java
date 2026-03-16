@@ -7,6 +7,8 @@ import com.cortaxi.patterns.creational.prototype.*;
 import com.cortaxi.patterns.creational.singleton.*;
 import com.cortaxi.patterns.structural.adapter.*;
 import com.cortaxi.patterns.structural.composite.*;
+import com.cortaxi.patterns.structural.facade.*;
+import com.cortaxi.patterns.structural.facade.services.*;
 
 public class Main {
     static void main(String[] ignored) {
@@ -15,23 +17,21 @@ public class Main {
 
         System.out.println("=== CASH ===");
         boolean cashAuth = cash.authorize(15);
-        boolean cashCap  = cash.capture(null);
-        boolean cashRef  = cash.refund(null, 5);
+        boolean cashCap = cash.capture(null);
+        boolean cashRef = cash.refund(null, 5);
         System.out.printf("auth=%s, capture=%s, refund=%s%n", cashAuth, cashCap, cashRef);
 
         System.out.println("\n=== CARD ===");
         boolean cardAuth = card.authorize(42.5);
-        boolean cardCap  = card.capture(null);
-        boolean cardRef  = card.refund(null, 10);
+        boolean cardCap = card.capture(null);
+        boolean cardRef = card.refund(null, 10);
         System.out.printf("auth=%s, capture=%s, refund=%s%n", cardAuth, cardCap, cardRef);
 
 
-
-
-        IFareComponent baseRide   = new FareItem("Ride km + time", 25.0);
+        IFareComponent baseRide = new FareItem("Ride km + time", 25.0);
         IFareComponent airportFee = new FareItem("Airport surcharge", 5.5);
-        IFareComponent toll       = new FareItem("Highway toll", 3.0);
-        IFareComponent waiting    = new FareItem("Waiting 10 min", 4.0);
+        IFareComponent toll = new FareItem("Highway toll", 3.0);
+        IFareComponent waiting = new FareItem("Waiting 10 min", 4.0);
 
         FareBundle airportTransfer = new FareBundle("Airport Transfer");
         airportTransfer.add(baseRide);
@@ -49,6 +49,15 @@ public class Main {
 
         vipPackage.print("");
         System.out.printf("%nTotal VIP: %.2f%n", vipPackage.getPrice());
+
+
+        RideBookingFacade facade = new RideBookingFacade();
+
+        RideRequest req = new RideRequest("Alice", "Airport", "Downtown", 18.5, 6);
+        RideBookingResult result = facade.bookRide(req);
+
+        System.out.printf("Success=%s, price=%.2f, driver=%s, tx=%s%n",
+                result.success(), result.price(), result.driverId(), result.paymentTxId());
     }
 
 
