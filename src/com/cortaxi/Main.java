@@ -11,6 +11,7 @@ import com.cortaxi.patterns.structural.facade.*;
 import com.cortaxi.patterns.structural.facade.services.*;
 import com.cortaxi.patterns.structural.flyweight.*;
 import com.cortaxi.patterns.structural.decorator.*;
+import com.cortaxi.patterns.structural.bridge.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -68,6 +69,16 @@ public class Main {
         System.out.println("Night+Surge: " + c.execute());
         System.out.println("Night+Surge-Discount: " + d.execute());
 
+
+
+
+        IVehicleB vehicle = new StandartTaxiB();
+        RideControl ride = new RideControl(vehicle);
+
+        ride.startRide();
+        ride.increaseSpeed();
+        System.out.println("Speed=" + vehicle.getSpeed());
+        ride.stopRide();
     }
 
 
