@@ -1,7 +1,7 @@
 package com.cortaxi;
 
 import com.cortaxi.domain.*;
-import com.cortaxi.patterns.creational.factorymethod.*;
+//import com.cortaxi.patterns.creational.factorymethod.*;
 import com.cortaxi.patterns.creational.builder.*;
 import com.cortaxi.patterns.creational.prototype.*;
 import com.cortaxi.patterns.creational.singleton.*;
@@ -12,6 +12,7 @@ import com.cortaxi.patterns.structural.facade.services.*;
 import com.cortaxi.patterns.structural.flyweight.*;
 import com.cortaxi.patterns.structural.decorator.*;
 import com.cortaxi.patterns.structural.bridge.*;
+import com.cortaxi.patterns.structural.proxy.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -79,6 +80,16 @@ public class Main {
         ride.increaseSpeed();
         System.out.println("Speed=" + vehicle.getSpeed());
         ride.stopRide();
+
+
+
+        ITaxiService realService = new RealTaxiService();
+        ITaxiService proxyService = new CachedTaxiService(realService);
+
+        TaxiApp app = new TaxiApp(proxyService);
+        app.showRide();
+        app.showDriver("D1");
+        app.showDriver("D1");
     }
 
 
