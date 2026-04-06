@@ -6,10 +6,11 @@ import com.cortaxi.patterns.creational.builder.*;
 import com.cortaxi.patterns.creational.prototype.*;
 import com.cortaxi.patterns.creational.singleton.*;
 import com.cortaxi.patterns.structural.adapter.*;
-import com.cortaxi.patterns.structural.composite.*;
+//import com.cortaxi.patterns.structural.composite.*;
 import com.cortaxi.patterns.structural.facade.*;
 import com.cortaxi.patterns.structural.facade.services.*;
 import com.cortaxi.patterns.structural.flyweight.*;
+import com.cortaxi.patterns.structural.decorator.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -55,6 +56,17 @@ public class Main {
             System.out.println(taxis.get(i).render());
         }
 
+
+
+        IFareComponent a = new BaseFare(12.0, 3.2, 8.0);              // ConcreteComponent
+        IFareComponent b = new NightTariffDecorator(a, 1.2);          // Decorator 1
+        IFareComponent c = new SurgeDecorator(b, 1.5);                // Decorator 2
+        IFareComponent d = new DiscountDecorator(c, 5.0);             // Decorator 3 (opțional)
+
+        System.out.println("Base: " + a.execute());
+        System.out.println("Night: " + b.execute());
+        System.out.println("Night+Surge: " + c.execute());
+        System.out.println("Night+Surge-Discount: " + d.execute());
 
     }
 
