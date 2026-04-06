@@ -9,55 +9,53 @@ import com.cortaxi.patterns.structural.adapter.*;
 import com.cortaxi.patterns.structural.composite.*;
 import com.cortaxi.patterns.structural.facade.*;
 import com.cortaxi.patterns.structural.facade.services.*;
+import com.cortaxi.patterns.structural.flyweight.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Main {
     static void main(String[] ignored) {
-        IPaymentGateway cash = new CashGateway();
-        IPaymentGateway card = new CardPaymentAdapter(new CardSdkClient()); // adaptor
+        CarTypeFactory factory = new CarTypeFactory();
+        Random rnd = new Random(42);
 
-        System.out.println("=== CASH ===");
-        boolean cashAuth = cash.authorize(15);
-        boolean cashCap = cash.capture(null);
-        boolean cashRef = cash.refund(null, 5);
-        System.out.printf("auth=%s, capture=%s, refund=%s%n", cashAuth, cashCap, cashRef);
+        // Intrinsic "templates" (puține)
+        String[][] carTypes = new String[][] {
+                {"Toyota", "Prius", "White", "Hybrid"},
+                {"Toyota", "Prius", "Black", "Hybrid"},
+                {"Dacia", "Logan", "White", "Gasoline"},
+                {"Skoda", "Octavia", "Gray", "Diesel"}
+        };
 
-        System.out.println("\n=== CARD ===");
-        boolean cardAuth = card.authorize(42.5);
-        boolean cardCap = card.capture(null);
-        boolean cardRef = card.refund(null, 10);
-        System.out.printf("auth=%s, capture=%s, refund=%s%n", cardAuth, cardCap, cardRef);
+        // Multe taxi-uri (contexts) care refolosesc puține flyweights
+        int taxiCount = 50_000;
+        List<TaxiContext> taxis = new ArrayList<>(taxiCount);
+
+        for (int i = 0; i < taxiCount; i++) {
+            int t = rnd.nextInt(carTypes.length);
+            CarTypeFlyweight flyweight = factory.getOrCreate(
+                    carTypes[t][0], carTypes[t][1], carTypes[t][2], carTypes[t][3]
+            );
+
+            String plate = "B-" + (10000 + i);
+            String driver = "driver-" + (i % 2000);
+
+            double x = rnd.nextDouble() * 100;
+            double y = rnd.nextDouble() * 100;
+            String status = (i % 10 == 0) ? "ON_TRIP" : "AVAILABLE";
+
+            taxis.add(new TaxiContext(plate, driver, x, y, status, flyweight));
+        }
+
+        System.out.println("Created contexts (taxis): " + taxis.size());
+        System.out.println("Flyweight pool size (car types): " + factory.poolSize());
+
+        // Exemplu: afișăm câteva
+        for (int i = 0; i < 3; i++) {
+            System.out.println(taxis.get(i).render());
+        }
 
 
-        IFareComponent baseRide = new FareItem("Ride km + time", 25.0);
-        IFareComponent airportFee = new FareItem("Airport surcharge", 5.5);
-        IFareComponent toll = new FareItem("Highway toll", 3.0);
-        IFareComponent waiting = new FareItem("Waiting 10 min", 4.0);
-
-        FareBundle airportTransfer = new FareBundle("Airport Transfer");
-        airportTransfer.add(baseRide);
-        airportTransfer.add(airportFee);
-        airportTransfer.add(toll);
-
-        FareBundle vipPackage = new FareBundle("VIP Package");
-        vipPackage.add(airportTransfer);
-        vipPackage.add(waiting);
-
-        System.out.println("VIP children before remove: " + vipPackage.getChildren().size());
-        vipPackage.remove(waiting);
-        System.out.println("VIP children after remove:  " + vipPackage.getChildren().size());
-        vipPackage.add(waiting);
-
-        vipPackage.print("");
-        System.out.printf("%nTotal VIP: %.2f%n", vipPackage.getPrice());
-
-
-        RideBookingFacade facade = new RideBookingFacade();
-
-        RideRequest req = new RideRequest("Alice", "Airport", "Downtown", 18.5, 6);
-        RideBookingResult result = facade.bookRide(req);
-
-        System.out.printf("Success=%s, price=%.2f, driver=%s, tx=%s%n",
-                result.success(), result.price(), result.driverId(), result.paymentTxId());
     }
 
 

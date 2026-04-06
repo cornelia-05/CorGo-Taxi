@@ -9,7 +9,8 @@ public class CardSdkClient {
         System.out.println("[CardSdk] captured " + intentId);
         return true;
     }
-    public boolean createRefund(String intentId, double amount) {
+    public boolean
+    createRefund(String intentId, double amount) {
         System.out.println("[CardSdk] refunded " + amount + " on " + intentId);
         return true;
     }

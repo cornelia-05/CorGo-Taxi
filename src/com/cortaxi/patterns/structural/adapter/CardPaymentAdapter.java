@@ -7,7 +7,7 @@ public class CardPaymentAdapter implements IPaymentGateway {
         this.card = card;
     }
 
-    private String lastIntentId; // mic buffer pentru demo
+    private String lastIntentId;
 
     @Override
     public boolean authorize(double amount) {
