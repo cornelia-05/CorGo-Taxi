@@ -2,6 +2,10 @@ package com.cortaxi.patterns.creational.abstractfactory;
 
 import com.cortaxi.patterns.creational.abstractfactory.factories.*;
 import com.cortaxi.patterns.creational.abstractfactory.products.*;
+import com.cortaxi.patterns.creational.abstractfactory.factories.IFleetFactory;
+import com.cortaxi.patterns.creational.abstractfactory.products.IDriver;
+import com.cortaxi.patterns.creational.abstractfactory.products.IPaymentMethod;
+import com.cortaxi.patterns.creational.abstractfactory.products.IVehicle;
 
 public class FleetConfigurator {
     private IVehicle vehicle;

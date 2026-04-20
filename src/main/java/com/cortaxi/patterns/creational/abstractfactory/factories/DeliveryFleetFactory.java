@@ -1,16 +1,17 @@
 package com.cortaxi.patterns.creational.abstractfactory.factories;
 
 import com.cortaxi.patterns.creational.abstractfactory.products.*;
+import com.cortaxi.patterns.creational.abstractfactory.products.*;
 
-public class StandardFleetFactory implements IFleetFactory {
+public class DeliveryFleetFactory implements IFleetFactory {
     @Override
     public IVehicle createVehicle() {
-        return new StandardCar();
+        return new DeliveryVan();
     }
 
     @Override
     public IDriver createDriver() {
-        return new RegularDriver();
+        return new CourierDriver();
     }
 
     @Override

@@ -4,7 +4,7 @@ package com.cortaxi.patterns.structural.decorator;
  * Concrete Decorator #3 - aplică discount (scade o sumă fixă sau procent).
  */
 public final class DiscountDecorator extends FareDecorator {
-    private final double discountAmount; // sumă fixă
+    private final double discountAmount;
 
     public DiscountDecorator(IFareComponent wrappee, double discountAmount) {
         super(wrappee);

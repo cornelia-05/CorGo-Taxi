@@ -1,6 +1,7 @@
 package com.cortaxi.patterns.creational.abstractfactory.factories;
 
 import com.cortaxi.patterns.creational.abstractfactory.products.*;
+import com.cortaxi.patterns.creational.abstractfactory.products.*;
 
 public class BusinessFleetFactory implements IFleetFactory {
     @Override

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CorGo Taxi.iml" filepath="$PROJECT_DIR$/CorGo Taxi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CorGo-Taxi.main.iml" filepath="$PROJECT_DIR$/.idea/modules/CorGo-Taxi.main.iml" />
     </modules>
   </component>
 </project>

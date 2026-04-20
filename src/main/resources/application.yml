@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=Taxi;encrypt=true;trustServerCertificate=true
+    username: corgo_app
+    password: ParolaFoartePuternica_123!
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServerDialect
+
+app:
+  jwt:
+    secret: "SCHIMBA-ACEST-SECRET-CU-UNUL-LUNG-SI-RANDOM"
+    issuer: "corgo-taxi"
+    ttl-minutes: 60

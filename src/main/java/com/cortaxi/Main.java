@@ -1,18 +1,23 @@
 package com.cortaxi;
 
-import com.cortaxi.domain.*;
 //import com.cortaxi.patterns.creational.factorymethod.*;
-import com.cortaxi.patterns.creational.builder.*;
-import com.cortaxi.patterns.creational.prototype.*;
-import com.cortaxi.patterns.creational.singleton.*;
-import com.cortaxi.patterns.structural.adapter.*;
 //import com.cortaxi.patterns.structural.composite.*;
-import com.cortaxi.patterns.structural.facade.*;
-import com.cortaxi.patterns.structural.facade.services.*;
 import com.cortaxi.patterns.structural.flyweight.*;
 import com.cortaxi.patterns.structural.decorator.*;
 import com.cortaxi.patterns.structural.bridge.*;
 import com.cortaxi.patterns.structural.proxy.*;
+import com.cortaxi.patterns.structural.bridge.IVehicleB;
+import com.cortaxi.patterns.structural.bridge.RideControl;
+import com.cortaxi.patterns.structural.bridge.StandartTaxiB;
+import com.cortaxi.patterns.structural.decorator.*;
+import com.cortaxi.patterns.structural.flyweight.CarTypeFactory;
+import com.cortaxi.patterns.structural.flyweight.CarTypeFlyweight;
+import com.cortaxi.patterns.structural.flyweight.TaxiContext;
+import com.cortaxi.patterns.structural.proxy.CachedTaxiService;
+import com.cortaxi.patterns.structural.proxy.ITaxiService;
+import com.cortaxi.patterns.structural.proxy.RealTaxiService;
+import com.cortaxi.patterns.structural.proxy.TaxiApp;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
