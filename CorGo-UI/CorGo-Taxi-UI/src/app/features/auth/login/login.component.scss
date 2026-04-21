@@ -1,0 +1,168 @@
+@import 'src/styles/variables.scss';
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, $primary-black 0%, $dark-gray 100%);
+  padding: $spacing-md;
+}
+
+.auth-card {
+  background-color: $primary-white;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-lg;
+  padding: $spacing-xl;
+  width: 100%;
+  max-width: 450px;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: $spacing-xl;
+
+  h1 {
+    color: $primary-gold;
+    font-size: $font-size-xxl;
+    margin-bottom: $spacing-sm;
+  }
+
+  p {
+    color: $text-secondary;
+    font-size: $font-size-lg;
+  }
+}
+
+.auth-form {
+  margin-bottom: $spacing-lg;
+}
+
+.form-group {
+  margin-bottom: $spacing-lg;
+
+  label {
+    display: block;
+    margin-bottom: $spacing-sm;
+    font-weight: 600;
+    color: $primary-black;
+    font-size: $font-size-sm;
+  }
+
+  input {
+    width: 100%;
+    padding: $spacing-md;
+    border: 2px solid $border-gray;
+    border-radius: $border-radius-md;
+    font-size: $font-size-md;
+    transition: border-color $transition-normal;
+    background-color: $light-gray;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-gold;
+      background-color: $primary-white;
+    }
+
+    &.is-invalid {
+      border-color: $error-color;
+      background-color: rgba(231, 76, 60, 0.05);
+    }
+  }
+}
+
+.error-message {
+  display: block;
+  color: $error-color;
+  font-size: $font-size-xs;
+  margin-top: $spacing-sm;
+}
+
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+  font-size: $font-size-sm;
+
+  .checkbox {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    cursor: pointer;
+
+    input {
+      width: auto;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    span {
+      color: $text-secondary;
+    }
+  }
+
+  .forgot-link {
+    color: $primary-gold;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $secondary-gold;
+    }
+  }
+}
+
+.btn-full {
+  width: 100%;
+  padding: $spacing-md;
+  font-size: $font-size-md;
+  font-weight: 600;
+}
+
+.error-banner {
+  background-color: rgba(231, 76, 60, 0.1);
+  border-left: 4px solid $error-color;
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+  margin-top: $spacing-lg;
+
+  p {
+    color: $error-color;
+    margin: 0;
+    font-size: $font-size-sm;
+  }
+}
+
+.auth-footer {
+  text-align: center;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $border-gray;
+
+  p {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+
+    a {
+      color: $primary-gold;
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        color: $secondary-gold;
+      }
+    }
+  }
+}

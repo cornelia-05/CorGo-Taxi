@@ -1,0 +1,155 @@
+<div class="passenger-container">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-top">
+      <h1>CorGo</h1>
+      <div class="header-icons">
+        <button class="icon-btn" (click)="openProfile()">
+          <img src="assets/profile-icon.svg" alt="Profile" />
+        </button>
+        <button class="icon-btn" (click)="logout()">
+          <img src="assets/logout-icon.svg" alt="Logout" />
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Map Section -->
+  <div class="map-section">
+    <div id="map" class="map"></div>
+
+    <!-- Address Bar -->
+    <div class="address-bar">
+      <div class="address-input-group">
+        <div class="address-input">
+          <label>Pickup Location</label>
+          <input
+            type="text"
+            [(ngModel)]="pickupAddress"
+            (keyup)="onPickupAddressChange($event)"
+            placeholder="Where are you?"
+            class="address-input-field"
+          />
+          <button class="btn-current-location" (click)="useCurrentLocation()">
+            <img src="assets/location-icon.svg" alt="Current Location" />
+          </button>
+        </div>
+
+        <button class="btn-swap" (click)="swapLocations()" title="Swap locations">
+          <img src="assets/swap-icon.svg" alt="Swap" />
+        </button>
+
+        <div class="address-input">
+          <label>Dropoff Location</label>
+          <input
+            type="text"
+            [(ngModel)]="dropoffAddress"
+            (keyup)="onDropoffAddressChange($event)"
+            placeholder="Where to?"
+            class="address-input-field"
+          />
+        </div>
+      </div>
+
+      <!-- Suggestions Dropdown -->
+      <div class="suggestions-dropdown" *ngIf="showSuggestions && suggestions.length > 0">
+        <div
+          class="suggestion-item"
+          *ngFor="let suggestion of suggestions"
+          (click)="selectSuggestion(suggestion)"
+        >
+          <img src="assets/location-marker.svg" alt="Location" />
+          <div class="suggestion-text">
+            <p class="suggestion-name">{{ suggestion.name }}</p>
+            <p class="suggestion-address">{{ suggestion.address }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nearby Locations Panel -->
+    <div class="nearby-panel" *ngIf="nearbyLocations.length > 0">
+      <h3>Nearby Locations</h3>
+      <div class="nearby-scroll">
+        <div
+          class="nearby-item"
+          *ngFor="let location of nearbyLocations"
+          (click)="selectNearbyLocation(location)"
+        >
+          <div class="nearby-icon">
+            <img [src]="getCategoryIcon(location.category)" [alt]="location.category" />
+          </div>
+          <div class="nearby-info">
+            <p class="nearby-name">{{ location.name }}</p>
+            <p class="nearby-address">{{ location.address }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Sheet - Ride Details -->
+  <div class="ride-details-sheet" [class.open]="showRideDetails">
+    <div class="sheet-handle"></div>
+
+    <div class="ride-type-selector" *ngIf="!rideRequested">
+      <h2>Select Ride Type</h2>
+
+      <div class="ride-types">
+        <div
+          class="ride-type-card"
+          *ngFor="let type of rideTypes"
+          [class.active]="selectedRideType === type.value"
+          (click)="selectRideType(type.value)"
+        >
+          <img [src]="type.icon" [alt]="type.name" />
+          <h3>{{ type.name }}</h3>
+          <p class="ride-price">~${{ estimatedPrice }}</p>
+          <p class="ride-time">{{ estimatedTime }} min</p>
+        </div>
+      </div>
+
+      <div class="ride-summary">
+        <div class="summary-item">
+          <span>Distance:</span>
+          <span>{{ distance }} km</span>
+        </div>
+        <div class="summary-item">
+          <span>Estimated Fare:</span>
+          <span class="gold-text">${{ estimatedPrice }}</span>
+        </div>
+        <div class="summary-item">
+          <span>Estimated Time:</span>
+          <span>{{ estimatedTime }} min</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-full btn-request" (click)="requestRide()">
+        Request {{ selectedRideType | titlecase }}
+      </button>
+    </div>
+
+    <!-- Ride Requested State -->
+    <div class="ride-requested-state" *ngIf="rideRequested">
+      <div class="finding-driver">
+        <div class="spinner"></div>
+        <h2>Finding your driver...</h2>
+        <p>{{ secondsElapsed }}s</p>
+      </div>
+
+      <button class="btn btn-secondary" (click)="cancelRide()">
+        Cancel Ride
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Error Toast -->
+  <div class="toast" *ngIf="errorMessage" [class.show]="errorMessage">
+    <p>{{ errorMessage }}</p>
+  </div>
+</div>

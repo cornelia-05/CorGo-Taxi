@@ -18,5 +18,10 @@ spring:
 app:
   jwt:
     secret: "SCHIMBA-ACEST-SECRET-CU-UNUL-LUNG-SI-RANDOM"
-    issuer: "corgo-taxi"
+    issuer: "cortaxi"
     ttl-minutes: 60
+
+  logging:
+    level:
+      org.springframework.security: DEBUG
+      org.springframework.security.web.FilterChainProxy: DEBUG

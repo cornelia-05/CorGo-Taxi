@@ -1,0 +1,140 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Join CorGo Taxi</h1>
+      <p>Create your account</p>
+    </div>
+
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            formControlName="firstName"
+            placeholder="First name"
+            [class.is-invalid]="isFieldInvalid('firstName')"
+          />
+          <span class="error-message" *ngIf="isFieldInvalid('firstName')">
+            {{ getFieldError('firstName') }}
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            formControlName="lastName"
+            placeholder="Last name"
+            [class.is-invalid]="isFieldInvalid('lastName')"
+          />
+          <span class="error-message" *ngIf="isFieldInvalid('lastName')">
+            {{ getFieldError('lastName') }}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="your@email.com"
+          [class.is-invalid]="isFieldInvalid('email')"
+        />
+        <span class="error-message" *ngIf="isFieldInvalid('email')">
+          {{ getFieldError('email') }}
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input
+          type="tel"
+          id="phone"
+          formControlName="phone"
+          placeholder="+1 (555) 123-4567"
+          [class.is-invalid]="isFieldInvalid('phone')"
+        />
+        <span class="error-message" *ngIf="isFieldInvalid('phone')">
+          {{ getFieldError('phone') }}
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="userType">Account Type</label>
+        <select
+          id="userType"
+          formControlName="userType"
+          [class.is-invalid]="isFieldInvalid('userType')"
+        >
+          <option value="">Select account type</option>
+          <option value="PASSENGER">Passenger</option>
+          <option value="DRIVER">Driver</option>
+        </select>
+
+        <span class="error-message" *ngIf="isFieldInvalid('userType')">
+    {{ getFieldError('userType') }}
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="Enter password"
+          [class.is-invalid]="isFieldInvalid('password')"
+        />
+        <span class="error-message" *ngIf="isFieldInvalid('password')">
+          {{ getFieldError('password') }}
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          placeholder="Confirm password"
+          [class.is-invalid]="isFieldInvalid('confirmPassword')"
+        />
+        <span class="error-message" *ngIf="isFieldInvalid('confirmPassword')">
+          {{ getFieldError('confirmPassword') }}
+        </span>
+      </div>
+
+      <div class="checkbox-group">
+        <label class="checkbox">
+          <input type="checkbox" formControlName="agreeTerms" />
+          <span>I agree to the Terms of Service</span>
+        </label>
+        <span class="error-message" *ngIf="isFieldInvalid('agreeTerms')">
+          {{ getFieldError('agreeTerms') }}
+        </span>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary btn-full"
+        [disabled]="!signupForm.valid || isLoading"
+      >
+        <span *ngIf="!isLoading">Create Account</span>
+        <span *ngIf="isLoading">Creating account...</span>
+      </button>
+
+      <div class="error-banner" *ngIf="error">
+        <p>{{ error }}</p>
+      </div>
+    </form>
+
+    <div class="auth-footer">
+      <p>Already have an account? <a routerLink="/auth/login">Sign in here</a></p>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ package com.cortaxi.auth;
 import com.cortaxi.auth.dto.AuthResponse;
 import com.cortaxi.auth.dto.LoginRequest;
 import com.cortaxi.auth.dto.RegisterRequest;
+import com.cortaxi.auth.dto.UserResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,18 +26,29 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public void register(@RequestBody @Valid RegisterRequest req) {
+    public AuthResponse register(@RequestBody @Valid RegisterRequest req) {
         repo.findByEmail(req.email()).ifPresent(a -> {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already used");
         });
 
         Account acc = new Account();
+        acc.setFirstName(req.firstName());
+        acc.setLastName(req.lastName());
+        acc.setPhone(req.phone());
         acc.setEmail(req.email());
         acc.setPasswordHash(encoder.encode(req.password()));
         acc.setRole(req.role());
         acc.setCreatedAt(Instant.now());
 
-        repo.save(acc);
+        // dacă ai aceste câmpuri în RegisterRequest + Account:
+        // acc.setFirstName(req.firstName());
+        // acc.setLastName(req.lastName());
+        // acc.setPhone(req.phone());
+
+        acc = repo.save(acc);
+
+        String token = jwt.createToken(acc);
+        return new AuthResponse(token, toUserResponse(acc));
     }
 
     @PostMapping("/login")
@@ -49,6 +61,18 @@ public class AuthController {
         }
 
         String token = jwt.createToken(acc);
-        return new AuthResponse(token, acc.getRole());
+        return new AuthResponse(token, toUserResponse(acc));
+    }
+
+    private static UserResponse toUserResponse(Account acc) {
+        return new UserResponse(
+                acc.getId(),
+                acc.getEmail(),
+                acc.getFirstName(),
+                acc.getLastName(),
+                acc.getPhone(),
+                acc.getRole(),
+                acc.getCreatedAt()
+        );
     }
 }

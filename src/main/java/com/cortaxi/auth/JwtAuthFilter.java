@@ -21,26 +21,37 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return request.getServletPath().startsWith("/api/auth/");
+    }
+
+    @Override
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
+
         String auth = request.getHeader("Authorization");
         if (auth != null && auth.startsWith("Bearer ")) {
             String token = auth.substring("Bearer ".length());
             try {
                 DecodedJWT jwt = jwtService.verify(token);
-                String role = jwt.getClaim("role").asString();
 
-                var principal = jwt.getClaim("email").asString();
-                var authorities = (role == null) ? List.<SimpleGrantedAuthority>of()
+                String email = jwt.getClaim("email").asString();
+                String role = jwt.getClaim("role").asString(); // "DRIVER"/"PASSENGER"
+
+                var authorities = (role == null || role.isBlank())
+                        ? List.<SimpleGrantedAuthority>of()
                         : List.of(new SimpleGrantedAuthority("ROLE_" + role));
 
-                var authentication = new UsernamePasswordAuthenticationToken(principal, null, authorities);
+                var authentication =
+                        new UsernamePasswordAuthenticationToken(email, null, authorities);
+
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception ignored) {
-                // token invalid -> lăsăm request-ul neautentificat
+                // token invalid -> rămâne neautentificat
+                SecurityContextHolder.clearContext();
             }
         }
 

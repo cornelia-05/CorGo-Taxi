@@ -1,0 +1,179 @@
+@import './variables.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: $font-family;
+  background-color: $primary-white;
+  color: $text-primary;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+// Typography
+h1 {
+  font-size: $font-size-xxl;
+  font-weight: 700;
+  color: $primary-black;
+}
+
+h2 {
+  font-size: $font-size-xl;
+  font-weight: 600;
+  color: $primary-black;
+}
+
+h3 {
+  font-size: $font-size-lg;
+  font-weight: 600;
+  color: $primary-black;
+}
+
+p {
+  font-size: $font-size-md;
+  line-height: 1.6;
+  color: $text-secondary;
+}
+
+a {
+  color: $primary-gold;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $secondary-gold;
+  }
+}
+
+// Buttons
+button {
+  font-family: $font-family;
+  cursor: pointer;
+  border: none;
+  transition: all $transition-normal;
+  border-radius: $border-radius-md;
+}
+
+.btn {
+  padding: $spacing-md $spacing-lg;
+  font-size: $font-size-md;
+  font-weight: 600;
+
+  &-primary {
+    background-color: $primary-gold;
+    color: $primary-black;
+
+    &:hover {
+      background-color: $secondary-gold;
+      transform: translateY(-2px);
+      box-shadow: $shadow-lg;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &-secondary {
+    background-color: transparent;
+    color: $primary-gold;
+    border: 2px solid $primary-gold;
+
+    &:hover {
+      background-color: $primary-gold;
+      color: $primary-black;
+    }
+  }
+
+  &-dark {
+    background-color: $primary-black;
+    color: $primary-white;
+
+    &:hover {
+      background-color: $dark-gray;
+      box-shadow: $shadow-lg;
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Forms
+input, textarea, select {
+  font-family: $font-family;
+  padding: $spacing-md;
+  border: 2px solid $border-gray;
+  border-radius: $border-radius-md;
+  font-size: $font-size-md;
+  transition: border-color $transition-fast;
+  background-color: $light-gray;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-gold;
+    background-color: $primary-white;
+  }
+
+  &::placeholder {
+    color: $text-secondary;
+  }
+}
+
+// Utility classes
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-gold {
+  color: $primary-gold;
+}
+
+.mt-sm { margin-top: $spacing-sm; }
+.mt-md { margin-top: $spacing-md; }
+.mt-lg { margin-top: $spacing-lg; }
+
+.mb-sm { margin-bottom: $spacing-sm; }
+.mb-md { margin-bottom: $spacing-md; }
+.mb-lg { margin-bottom: $spacing-lg; }
+
+.px-md { padding: 0 $spacing-md; }
+.py-md { padding: $spacing-md 0; }
+
+.hidden {
+  display: none;
+}
+
+.flex {
+  display: flex;
+
+  &-center {
+    justify-content: center;
+    align-items: center;
+  }
+
+  &-between {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &-column {
+    flex-direction: column;
+  }
+}
