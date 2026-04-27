@@ -1,5 +1,8 @@
 package com.cortaxi.patterns.behavioral.command;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class RideInvoker {
 
     private ICommand command;
