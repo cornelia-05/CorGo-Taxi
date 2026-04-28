@@ -1,34 +1,46 @@
 package com.cortaxi.patterns.structural.facade;
 
 import com.cortaxi.patterns.behavioral.strategy.PricingStrategy;
-import com.cortaxi.patterns.behavioral.strategy.PriceContext;
-import com.cortaxi.patterns.behavioral.strategy.StandardPrice;
+import com.cortaxi.patterns.structural.decorator.*;
 import org.springframework.stereotype.Service;
 
-/**
- * Facade service that delegates fare calculation to a {@link PriceContext}.
- * The active pricing strategy can be swapped at runtime via
- * {@link #setStrategy(PricingStrategy)} without changing the facade interface.
- */
 @Service
 public class PricingEngine {
 
-    private final PriceContext pricingContext;
+    private PricingStrategy strategy;
 
-    public PricingEngine() {
-        this.pricingContext = new PriceContext(new StandardPrice());
+    public PricingEngine(PricingStrategy strategy) {
+        this.strategy = strategy;
     }
 
-    /**
-     * Replace the active pricing strategy at runtime.
-     */
     public void setStrategy(PricingStrategy strategy) {
-        pricingContext.setStrategy(strategy);
+        this.strategy = strategy;
     }
 
-    public double estimate(double distanceKm, double waitMinutes) {
-        double total = pricingContext.executeStrategy(distanceKm, waitMinutes);
-        System.out.println("[PricingEngine] price = " + total);
-        return total;
+    public double calculate(double distanceKm,
+                            double waitMinutes,
+                            boolean night,
+                            boolean surge,
+                            boolean discount) {
+
+        // 1. BASE PRICE (Strategy)
+        double base = strategy.calculate(distanceKm, waitMinutes);
+
+        // 2. WRAP IN DECORATOR SYSTEM
+        IFareComponent fare = new BaseFareWrapper(base);
+
+        if (night) {
+            fare = new NightTariffDecorator(fare, 1.2);
+        }
+
+        if (surge) {
+            fare = new SurgeDecorator(fare, 1.5);
+        }
+
+        if (discount) {
+            fare = new DiscountDecorator(fare, 5);
+        }
+
+        return fare.execute();
     }
 }

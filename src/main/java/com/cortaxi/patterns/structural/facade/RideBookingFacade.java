@@ -14,10 +14,11 @@ public class RideBookingFacade {
     private final PricingEngine pricingEngine;
     private final RidePublisher ridePublisher;
 
+
     public RideBookingFacade(
             DriverMatcher driverMatcher,
-            PricingEngine pricingEngine,
-            RidePublisher ridePublisher
+            RidePublisher ridePublisher,
+            PricingEngine pricingEngine
     ) {
         this.driverMatcher = driverMatcher;
         this.pricingEngine = pricingEngine;
@@ -26,25 +27,28 @@ public class RideBookingFacade {
 
     public RideBookingResult bookRide(RideRequest request, PaymentMethod method) {
 
-        // 1. driver
+        // 1. DRIVER
         String driverId = driverMatcher.findDriver(request.pickup());
 
         if (driverId == null) {
             return new RideBookingResult(false, "No drivers available", 0, null, null);
         }
 
-        // 2. price
-        double price = pricingEngine.estimate(
+        // 2. PRICE (Strategy + Decorator via engine)
+        double price = pricingEngine.calculate(
                 request.distanceKm(),
-                request.waitMinutes()
+                request.waitMinutes(),
+                true,
+                false,
+                true
         );
 
-        // 3. payment (Adapter + Factory)
+        // 3. PAYMENT (Adapter + Factory)
         IPaymentGateway gateway = PaymentGatewayFactory.create(method);
         PaymentProcessor paymentProcessor = new PaymentProcessor(gateway);
         String txId = paymentProcessor.charge(request.riderName(), price);
 
-        // 4. OBSERVER EVENT (în loc de NotificationService)
+        // 4. OBSERVER EVENT
         ridePublisher.notifySubscribers(
                 new RideEvent(
                         "RIDE-" + System.nanoTime(),

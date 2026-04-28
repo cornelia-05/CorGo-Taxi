@@ -1,5 +1,8 @@
 package com.cortaxi.patterns.behavioral.strategy;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class StandardPrice implements PricingStrategy {
     @Override
     public double calculate(double distanceKm, double waitMinutes) {

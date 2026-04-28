@@ -22,7 +22,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return request.getServletPath().startsWith("/api/auth/");
+        String path = request.getRequestURI();
+        return path.startsWith("/api/auth/");
     }
 
     @Override
@@ -48,13 +49,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 var authentication =
                         new UsernamePasswordAuthenticationToken(email, null, authorities);
 
+                authentication.setDetails(
+                        new org.springframework.security.web.authentication.WebAuthenticationDetailsSource()
+                                .buildDetails(request)
+                );
+                System.out.println("FILTER HIT: " + request.getRequestURI());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (Exception ignored) {
-                // token invalid -> rămâne neautentificat
+            } catch (Exception ex) {
+                ex.printStackTrace();
                 SecurityContextHolder.clearContext();
             }
         }
-
+        System.out.println("AUTH HEADER: " + auth);
         filterChain.doFilter(request, response);
+
     }
 }

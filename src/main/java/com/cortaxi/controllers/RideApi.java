@@ -3,6 +3,7 @@ package com.cortaxi.controllers;
 import com.cortaxi.patterns.behavioral.command.BookRideCommand;
 import com.cortaxi.patterns.behavioral.command.ICommand;
 import com.cortaxi.patterns.behavioral.command.RideInvoker;
+import com.cortaxi.patterns.behavioral.memento.RideState;
 import com.cortaxi.patterns.structural.facade.RideBookingFacade;
 import com.cortaxi.patterns.structural.facade.RideRequest;
 import com.cortaxi.patterns.structural.facade.help.PaymentMethod;
@@ -14,6 +15,9 @@ public class RideApi {
 
     private final RideInvoker invoker;
     private final RideBookingFacade facade;
+
+    // demo state (în real app ar fi per user/DB)
+    private final RideState rideState = new RideState("RIDE-1");
 
     public RideApi(RideInvoker invoker, RideBookingFacade facade) {
         this.invoker = invoker;
@@ -27,7 +31,8 @@ public class RideApi {
         ICommand command = new BookRideCommand(
                 facade,
                 request,
-                method
+                method,
+                rideState
         );
 
         invoker.setCommand(command);
